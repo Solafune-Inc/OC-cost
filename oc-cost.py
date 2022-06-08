@@ -1,9 +1,8 @@
-from email.mime import image
 import numpy as np
 from optimization import OCOpt
 from Annotations import BBox, predBBox, Annotations, Annotation_images, Prediction_images
 import pulp
-
+from tqdm import tqdm
 import json
 class OC_Cost:
     def __init__(self, lm=1):
@@ -96,15 +95,15 @@ class OC_Cost:
         opt.setObjective()
         opt.setConstrain()
 
-        result = opt.prob.solve()
+        result = opt.prob.solve(pulp.PULP_CBC_CMD(
+            msg=0, timeLimit=100))
         p_matrix = np.zeros((m, n))
 
-        print('objective value: {}'.format(pulp.value(opt.prob.objective)))
-        print('solution')
+        #print('objective value: {}'.format(pulp.value(opt.prob.objective)))
+        #print('solution')
         for i in range(opt.m):
             for j in range(opt.n):
-                print(
-                    f'{opt.variable[j][i]} = {pulp.value(opt.variable[j][i])}')
+                #print(f'{opt.variable[j][i]} = {pulp.value(opt.variable[j][i])}')
                 p_matrix[j][i] = pulp.value(opt.variable[j][i])
         p_tilda_matrix = p_matrix / np.sum(p_matrix)
         p_tilda_matrix[m - 1][n - 1] = 0
@@ -115,12 +114,12 @@ class OC_Cost:
 
 
 if __name__ == "__main__":
-    pred_path = "./pred.json"
-    truth_path = "./truth.json"
+    pred_path = "./gt_ex_1.json"
+    truth_path = "./pd_ex_1.json"
     preds: Prediction_images = Prediction_images()
     truth: Annotation_images = Annotation_images()
     occost = OC_Cost()
-
+    total_occost = 0
     with open(pred_path) as f:
         pd_dict = json.load(f)
         preds.load_from_dict(pd_dict)
@@ -129,14 +128,10 @@ if __name__ == "__main__":
         gt_dict = json.load(f)
         truth.load_from_dict(gt_dict)
 
-    for image_name in truth.keys():
-        print(truth[image_name])
-        print(preds[image_name])
-
+    for image_name in tqdm(truth.keys()):
         c_matrix = occost.build_C_matrix(truth[image_name], preds[image_name])
         pi_tilda_matrix = occost.optim()
-        print(pi_tilda_matrix)
-        print(occost.opt.cost)
 
-        oc_cost = np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
-        print(oc_cost)
+        total_occost += np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
+    oc_cost = total_occost / len(truth.keys())
+    print(oc_cost)

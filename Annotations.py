@@ -61,7 +61,9 @@ class Prediction_images(dict):
             bboxs = list()
             for bbox in image["annotation"]:
                 cls = bbox["class"]
-                precision = bbox["precision"]
+                precision = 1
+                if "precision" in bbox.keys():
+                    precision = bbox["precision"]
                 x = bbox["lefttop_x"]
                 y = bbox["lefttop_y"]
                 width = bbox["rightbottom_x"] - bbox["lefttop_x"]
