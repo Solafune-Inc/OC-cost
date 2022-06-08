@@ -27,24 +27,24 @@ class OCOpt:
 
     def setVariable(self):
         # 変数の定義
-        self.variable = [[pulp.LpVariable(f'pi_{i}_{j}', lowBound=0) for j in range(
-            self.n)] for i in range(self.m)]
+        self.variable = [[pulp.LpVariable(f'pi_{i}_{j}', lowBound=0) for i in range(
+            self.m)] for j in range(self.n)]
 
     def setObjective(self):
         self.prob += pulp.lpDot(self.cost, self.variable)
 
     def setConstrain(self):
         for j in range(self.n):
-            self.prob += pulp.lpSum(self.variable[i][j]
-                                    for i in range(self.m)) == self.d[j]
+            self.prob += pulp.lpSum(self.variable[j]) == self.d[j]
         for i in range(self.m):
-            self.prob += pulp.lpSum(self.variable[i]) == self.s[i]
+            self.prob += pulp.lpSum(self.variable[j][i]
+                                    for j in range(self.n)) == self.s[i]
 
         self.prob += pulp.lpSum(self.s) == pulp.lpSum(self.d)
 
     def set_cost_matrix(self, cost: np.array):
-        cost = np.insert(cost, self.n - 1, opt.beta, axis=1)
-        cost = np.insert(cost, self.m - 1, opt.beta, axis=0)
+        cost = np.insert(cost, self.n - 1, self.beta, axis=0)
+        cost = np.insert(cost, self.m - 1, self.beta, axis=1)
         self.cost = cost
 
 

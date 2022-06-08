@@ -1,0 +1,33 @@
+{
+    "images": [
+        {
+            "name": "train1.tif",
+            "annotation": [
+                {
+                    "class": "car",
+                    "precision": 1,
+                    "lefttop_x": 20,
+                    "lefttop_y": 20,
+                    "rightbottom_x": 50,
+                    "rightbottom_y": 50
+                },
+                {
+                    "class": "car",
+                    "precision": 1,
+                    "lefttop_x": 35,
+                    "lefttop_y": 30,
+                    "rightbottom_x": 55,
+                    "rightbottom_y": 50
+                },
+                {
+                    "class": "car",
+                    "precision": 1,
+                    "lefttop_x": 35,
+                    "lefttop_y": 30,
+                    "rightbottom_x": 55,
+                    "rightbottom_y": 50
+                }
+            ]
+        }
+    ]
+}
