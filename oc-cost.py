@@ -4,6 +4,9 @@ from Annotations import BBox, predBBox, Annotations, Annotation_images, Predicti
 import pulp
 from tqdm import tqdm
 import json
+import argparse
+
+
 class OC_Cost:
     def __init__(self, lm=1):
         self.lm = lm
@@ -86,10 +89,10 @@ class OC_Cost:
                     truth_annotations.bboxs[j], pred_annotations.bboxs[i])
         return self.cost
 
-    def optim(self):
+    def optim(self, beta):
         m = self.cost.shape[0] + 1
         n = self.cost.shape[1] + 1
-        opt = OCOpt(m, n, 0.3)
+        opt = OCOpt(m, n, beta)
         opt.set_cost_matrix(self.cost)
         opt.setVariable()
         opt.setObjective()
@@ -114,11 +117,29 @@ class OC_Cost:
 
 
 if __name__ == "__main__":
-    pred_path = "./gt_ex_1.json"
-    truth_path = "./pd_ex_1.json"
+
+    parser = argparse.ArgumentParser(
+        description='translate coco format to solafune format')
+
+    parser.add_argument(
+        '-pd', '--pred', help='pred json')
+    parser.add_argument(
+        '-gt', '--truth', help='ground truth json')
+    parser.add_argument(
+        '-lm', '--lam', help='Lambda parameter', default=1
+    )
+    parser.add_argument(
+        '-b', '--beta', help='beta parameter', default=0.5
+    )
+
+    args = parser.parse_args()
+
+    pred_path = args.pred
+    truth_path = args.truth
+
     preds: Prediction_images = Prediction_images()
     truth: Annotation_images = Annotation_images()
-    occost = OC_Cost()
+    occost = OC_Cost(float(args.lam))
     total_occost = 0
     with open(pred_path) as f:
         pd_dict = json.load(f)
@@ -130,7 +151,7 @@ if __name__ == "__main__":
 
     for image_name in tqdm(truth.keys()):
         c_matrix = occost.build_C_matrix(truth[image_name], preds[image_name])
-        pi_tilda_matrix = occost.optim()
+        pi_tilda_matrix = occost.optim(float(args.beta))
 
         total_occost += np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
     oc_cost = total_occost / len(truth.keys())
