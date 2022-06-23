@@ -8,7 +8,7 @@ class OC_Cost:
     def __init__(self, lm=1):
         self.lm = lm
 
-    def getIOU(self, truth: BBox, pred: predBBox):
+    def getIntersectUnion(self, truth: BBox, pred: predBBox):
         a_area = (truth.get_rightbottom_x() - truth.x + 1) * \
             (truth.get_rightbottom_y() - truth.y + 1)
         b_area = (pred.get_rightbottom_x() - pred.x + 1) * \
@@ -22,20 +22,49 @@ class OC_Cost:
         h = max(0, aby_mx - aby_mn + 1)
         intersect = w * h
 
-        iou = intersect / (a_area + b_area - intersect)
+        union = a_area + b_area - intersect
+
+        return intersect, union
+
+    def getIOU(self, truth: BBox, pred: predBBox):
+
+        intersect, union = self.getIntersectUnion(truth, pred)
+
+        iou = intersect / (union)
         return iou
 
-    def getCloc(self, truth: BBox, pred: predBBox):
+    def getGIOU(self, truth: BBox, pred: predBBox):
+
+        abx_mn = min(truth.x, pred.x)
+        aby_mn = min(truth.y, pred.y)
+        abx_mx = max(truth.get_rightbottom_x(), pred.get_rightbottom_x())
+        aby_mx = max(truth.get_rightbottom_y(), pred.get_rightbottom_y())
+
+        c_area = (abx_mx - abx_mn + 1) * (aby_mx - aby_mn + 1)
+
+        intersect, union = self.getIntersectUnion(truth, pred)
+
+        iou = self.getIOU(truth, pred)
+        Giou = iou - ((c_area - union) / c_area)
+
+        return Giou
+
+    def getCloc(self, truth: BBox, pred: predBBox, mode="giou"):
         """get Cloc
 
         Args:
             truth (dict): set truth bbox dict
             pred (dict): set pred bbox dict including precision
+            mode (str): set mode of union cal
 
         Returns:
             float: C_loc
         """
-        cost: float = (1 - self.getIOU(truth, pred)) / 2
+        cost: float = 0
+        if mode == "giou":
+            cost = (1 - self.getGIOU(truth, pred)) / 2
+        if mode == "iou":
+            cost = (1 - self.getIOU(truth, pred)) / 2
         return cost
 
     def getCcls(self, truth: BBox, pred: predBBox):
