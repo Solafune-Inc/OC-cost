@@ -8,8 +8,12 @@ import argparse
 
 
 class OC_Cost:
-    def __init__(self, lm=1):
+    def __init__(self, lm=1, iou_mode=False):
         self.lm = lm
+        if not iou_mode:
+            self.mode = "giou"
+        if iou_mode:
+            self.mode = "iou"
 
     def getIntersectUnion(self, truth: BBox, pred: predBBox):
         a_area = (truth.get_rightbottom_x() - truth.x + 1) * \
@@ -52,7 +56,7 @@ class OC_Cost:
 
         return Giou
 
-    def getCloc(self, truth: BBox, pred: predBBox, mode="giou"):
+    def getCloc(self, truth: BBox, pred: predBBox):
         """get Cloc
 
         Args:
@@ -64,9 +68,9 @@ class OC_Cost:
             float: C_loc
         """
         cost: float = 0
-        if mode == "giou":
+        if self.mode == "giou":
             cost = (1 - self.getGIOU(truth, pred)) / 2
-        if mode == "iou":
+        if self.mode == "iou":
             cost = (1 - self.getIOU(truth, pred)) / 2
         return cost
 
@@ -148,7 +152,7 @@ class OC_Cost:
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
-        description='translate coco format to solafune format')
+        description='calculate OC cost')
 
     parser.add_argument(
         '-pd', '--pred', help='pred json')
@@ -160,6 +164,9 @@ if __name__ == "__main__":
     parser.add_argument(
         '-b', '--beta', help='beta parameter', default=0.5
     )
+    parser.add_argument(
+        '--iou_mode', help="turn on iou mode", action='store_true'
+    )
 
     args = parser.parse_args()
 
@@ -168,7 +175,7 @@ if __name__ == "__main__":
 
     preds: Prediction_images = Prediction_images()
     truth: Annotation_images = Annotation_images()
-    occost = OC_Cost(float(args.lam))
+    occost = OC_Cost(float(args.lam), args.iou_mode)
     total_occost = 0
     with open(pred_path) as f:
         pd_dict = json.load(f)
