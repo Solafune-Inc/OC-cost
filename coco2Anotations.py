@@ -4,7 +4,7 @@ import argparse
 
 
 def coco2Anotations(coco_dict: dict):
-    solafune_dict = {
+    annotations_dict = {
         "images": list()
     }
     images_annotations = defaultdict(list)
@@ -34,14 +34,14 @@ def coco2Anotations(coco_dict: dict):
             }
         )
     for key in images_annotations.keys():
-        solafune_dict["images"].append(
+        annotations_dict["images"].append(
             {
                 "name": key,
                 "annotation": images_annotations[key]
             }
         )
 
-    return solafune_dict
+    return annotations_dict
 
 
 if __name__ == '__main__':
