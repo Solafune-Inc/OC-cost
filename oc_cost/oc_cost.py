@@ -1,6 +1,6 @@
 import numpy as np
-from optimization import OCOpt
-from Annotations import BBox, predBBox, Annotations, Annotation_images, Prediction_images
+from .optimization import OCOpt
+from .Annotations import BBox, predBBox, Annotations, Annotation_images, Prediction_images
 import pulp
 from tqdm import tqdm
 import json
