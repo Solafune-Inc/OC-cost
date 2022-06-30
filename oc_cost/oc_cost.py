@@ -189,7 +189,6 @@ if __name__ == "__main__":
         c_matrix = occost.build_C_matrix(truth[image_name], preds[image_name])
         pi_tilde_matrix = occost.optim(float(args.beta))
         cost = np.sum(np.multiply(pi_tilde_matrix, occost.opt.cost))
-        print(cost)
         total_occost += cost
 
     oc_cost = total_occost / len(truth.keys())
