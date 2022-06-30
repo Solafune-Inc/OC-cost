@@ -19,11 +19,11 @@ class OCOpt:
 
         for i in range(m - 1):
             self.s.append(1)
-        self.s.append(n)
+        self.s.append(n - 1)
 
         for j in range(n - 1):
             self.d.append(1)
-        self.d.append(m)
+        self.d.append(m - 1)
 
     def setVariable(self):
         # 変数の定義

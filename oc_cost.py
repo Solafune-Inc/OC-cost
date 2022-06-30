@@ -188,7 +188,9 @@ if __name__ == "__main__":
     for image_name in tqdm(truth.keys()):
         c_matrix = occost.build_C_matrix(truth[image_name], preds[image_name])
         pi_tilda_matrix = occost.optim(float(args.beta))
+        cost = np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
+        print(cost)
+        total_occost += cost
 
-        total_occost += np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
     oc_cost = total_occost / len(truth.keys())
     print(oc_cost)
