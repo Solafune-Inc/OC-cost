@@ -141,12 +141,12 @@ class OC_Cost:
             for j in range(opt.n):
                 #print(f'{opt.variable[j][i]} = {pulp.value(opt.variable[j][i])}')
                 p_matrix[j][i] = pulp.value(opt.variable[j][i])
-        p_tilda_matrix = p_matrix / np.sum(p_matrix)
-        p_tilda_matrix[m - 1][n - 1] = 0
+        p_tilde_matrix = p_matrix / np.sum(p_matrix)
+        p_tilde_matrix[m - 1][n - 1] = 0
         self.p_matrix = p_matrix
-        self.p_tilda_matrix = p_tilda_matrix
+        self.p_tilde_matrix = p_tilde_matrix
         self.opt = opt
-        return p_tilda_matrix
+        return p_tilde_matrix
 
 
 if __name__ == "__main__":
@@ -187,8 +187,8 @@ if __name__ == "__main__":
 
     for image_name in tqdm(truth.keys()):
         c_matrix = occost.build_C_matrix(truth[image_name], preds[image_name])
-        pi_tilda_matrix = occost.optim(float(args.beta))
-        cost = np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
+        pi_tilde_matrix = occost.optim(float(args.beta))
+        cost = np.sum(np.multiply(pi_tilde_matrix, occost.opt.cost))
         print(cost)
         total_occost += cost
 

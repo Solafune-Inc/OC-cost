@@ -28,9 +28,9 @@ def test_basic_oc_cost():
 
     for image_name in tqdm(truth.keys()):
         occost.build_C_matrix(truth[image_name], preds[image_name])
-        pi_tilda_matrix = occost.optim(float(beta))
+        pi_tilde_matrix = occost.optim(float(beta))
 
-        total_occost += np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
+        total_occost += np.sum(np.multiply(pi_tilde_matrix, occost.opt.cost))
     oc_cost = total_occost / len(truth.keys())
     assert oc_cost == 0.08928571428571429
 
@@ -58,10 +58,10 @@ def test_basic_no_cost():
     for image_name in tqdm(truth.keys()):
         cost = occost.build_C_matrix(truth[image_name], preds[image_name])
 
-        pi_tilda_matrix = occost.optim(float(beta))
-        print(pi_tilda_matrix)
+        pi_tilde_matrix = occost.optim(float(beta))
+        print(pi_tilde_matrix)
         #print(occost.opt.cost)
-        total_occost += np.sum(np.multiply(pi_tilda_matrix, occost.opt.cost))
+        total_occost += np.sum(np.multiply(pi_tilde_matrix, occost.opt.cost))
 
     oc_cost = total_occost / len(truth.keys())
     assert oc_cost == 0
