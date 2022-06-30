@@ -136,7 +136,7 @@ class OC_Cost:
         p_matrix = np.zeros((m, n))
 
         #print('objective value: {}'.format(pulp.value(opt.prob.objective)))
-        #print('solution')
+        # print('solution')
         for i in range(opt.m):
             for j in range(opt.n):
                 #print(f'{opt.variable[j][i]} = {pulp.value(opt.variable[j][i])}')
