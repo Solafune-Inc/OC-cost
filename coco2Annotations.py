@@ -3,7 +3,7 @@ from collections import defaultdict
 import argparse
 
 
-def coco2Anotations(coco_dict: dict):
+def coco2Annotations(coco_dict: dict):
     annotations_dict = {
         "images": list()
     }
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     with open(args.input) as f:
         load_dict = json.load(f)
 
-    trans_dict = coco2Anotations(load_dict)
+    trans_dict = coco2Annotations(load_dict)
 
     with open(args.output, 'w') as fp:
         json.dump(trans_dict, fp)

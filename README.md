@@ -1,6 +1,8 @@
-# OC-cost
-https://arxiv.org/abs/2203.14438
+# OC-cost (Optimal Correction Cost)
 
+
+Mayu Otani, Riku Togashi, Yuta Nakashima, Esa Rahtu, Janne Heikkilä, Shin'ichi Satoh(2022). Optimal Correction Cost for Object Detection Evaluation
+https://arxiv.org/abs/2203.14438
 
 ## How to install
 from github
@@ -45,4 +47,16 @@ if __name__ == "__main__":
 
     oc_cost = total_occost / len(truth.keys())
     print(oc_cost)
+```
+
+
+### Traslate coco format to this format
+if you translate ground truth file
+```bash
+python coco2Annotations.py -i ./input.json -o ./output.json
+```
+
+if you translate predictions file
+```bash
+python coco2Annotations.py -i ./input.json -o ./output.json --prediction
 ```
