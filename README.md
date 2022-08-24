@@ -7,7 +7,7 @@ https://arxiv.org/abs/2203.14438
 ## How to install
 from github
 ```
-git clone https://github.com/torumitsutake/OC-cost.git
+git clone https://github.com/Solafune-Inc/OC-cost.git
 pip install .
 ```
 
