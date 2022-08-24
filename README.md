@@ -1,8 +1,20 @@
-# OC-cost (Optimal Correction Cost)
+# OC-cost (Optimal Correction Cost) with pulp
 
+This repository is an implementation of oc-cost, implemented by pulp.
 
 Mayu Otani, Riku Togashi, Yuta Nakashima, Esa Rahtu, Janne Heikkilä, Shin'ichi Satoh(2022). Optimal Correction Cost for Object Detection Evaluation
 https://arxiv.org/abs/2203.14438
+
+```
+@InProceedings{Otani_2022_CVPR,
+    author    = {Otani, Mayu and Togashi, Riku and Nakashima, Yuta and Rahtu, Esa and Heikkil\"a, Janne and Satoh, Shin'ichi},
+    title     = {Optimal Correction Cost for Object Detection Evaluation},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2022},
+    pages     = {21107-21115}
+}
+```
 
 ## How to install
 from github
