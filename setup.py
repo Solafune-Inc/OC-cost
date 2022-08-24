@@ -1,6 +1,6 @@
 
-# Author: Toru Mitsutake <torumitsutake@gmail.com>
-# Copyright (c) 2022 Toru Mitsutake
+# Author: Toru Mitsutake <toru.mitsutake@solafune.com>
+# Copyright (c) 2022 Toru Mitsutake(Solafune Inc.)
 # License: MIT LICENSE
 
 from setuptools import setup
@@ -9,10 +9,10 @@ import oc_cost
 DESCRIPTION = "OC-cost calculation tools and Annotations Management Class"
 NAME = 'oc_cost'
 AUTHOR = 'Toru Mitsutake'
-AUTHOR_EMAIL = 'torumitsutake@gmail.com'
-URL = 'https://github.com/torumitsutake/OC-cost'
+AUTHOR_EMAIL = 'toru.mitsutake@solafune.com'
+URL = 'https://github.com/Solafune-Inc/OC-cost'
 LICENSE = 'MIT LICENSE'
-DOWNLOAD_URL = 'https://github.com/torumitsutake/OC-cost'
+DOWNLOAD_URL = 'https://github.com/Solafune-Inc/OC-cost'
 VERSION = oc_cost.__version__
 PYTHON_REQUIRES = ">=3.6"
 
