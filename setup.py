@@ -18,8 +18,7 @@ PYTHON_REQUIRES = ">=3.6"
 
 
 INSTALL_REQUIRES = [
-    'numpy >= 1.22.4',
-    'PuLP >= 2.6.0',
+    'numpy >= 1.21.6',
     'PuLP >= 2.6.0',
     'matplotlib >= 3.5.2',
 ]
