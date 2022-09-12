@@ -17,25 +17,32 @@ https://arxiv.org/abs/2203.14438
 ```
 
 ## How to install
+
 from github
-```
+
+```bash
 git clone https://github.com/Solafune-Inc/OC-cost.git
+cd OC-cost
+pip install -r requirements.txt
 pip install .
 ```
 
-
 ## Usage
+
 ### OC_Cost Calculation
+
 ```python
 from oc_cost import OC_Cost
 from oc_cost.Annotations import Annotation_images, Prediction_images
 
 import json
 import numpy as np
+from tqdm import tqdm
+
 
 if __name__ == "__main__":
-    pred_path = "./expjson/pred.json"
-    truth_path = "./expjson/truth.json"
+    pred_path = "./oc_cost/expjson/pred.json"
+    truth_path = "./oc_cost/expjson/truth.json"
     lam = 1
     beta = 0.5
 
@@ -61,14 +68,16 @@ if __name__ == "__main__":
     print(oc_cost)
 ```
 
-
 ### Traslate coco format to this format
+
 if you translate ground truth file
+
 ```bash
 python coco2Annotations.py -i ./input.json -o ./output.json
 ```
 
 if you translate predictions file
+
 ```bash
 python coco2Annotations.py -i ./input.json -o ./output.json --prediction
 ```
