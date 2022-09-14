@@ -138,8 +138,8 @@ class OC_Cost:
             for j in range(opt.n):
                 #print(f'{opt.variable[j][i]} = {pulp.value(opt.variable[j][i])}')
                 p_matrix[j][i] = pulp.value(opt.variable[j][i])
-        p_tilde_matrix = p_matrix[-1][-1] = 0
-        p_tilde_matrix = p_tilde_matrix / np.sum(p_matrix)
+        p_matrix[-1][-1] = 0
+        p_tilde_matrix = p_matrix / np.sum(p_matrix)
         self.p_matrix = p_matrix
         self.p_tilde_matrix = p_tilde_matrix
         self.opt = opt

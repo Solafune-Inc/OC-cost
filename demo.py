@@ -4,6 +4,7 @@ from oc_cost.oc_cost import OC_Cost
 from tqdm import tqdm
 import json
 import argparse
+import math
 
 if __name__ == "__main__":
 
@@ -45,6 +46,8 @@ if __name__ == "__main__":
         c_matrix = occost.build_C_matrix(truth[image_name], preds[image_name])
         pi_tilde_matrix = occost.optim(float(args.beta))
         cost = np.sum(np.multiply(pi_tilde_matrix, occost.opt.cost))
+        if math.isnan(cost):
+            cost = 0
         total_occost += cost
 
     oc_cost = total_occost / len(truth.keys())
