@@ -6,13 +6,12 @@ import numpy as np
 
 class OCOpt:
 
-    d = list()
-    s = list()
-
     def __init__(self, n: int, m: int, beta: float, name="sample"):
         self.prob = pulp.LpProblem(name, sense=LpMinimize)
         self.n = n
         self.m = m
+        self.d = list()
+        self.s = list()
         self.variable = defaultdict(dict)
         self.cost = np.zeros((m, n))
         self.beta = beta
