@@ -48,7 +48,7 @@ class OC_Cost:
 
         intersect, union = self.getIntersectUnion(truth, pred)
 
-        iou = self.getIOU(truth, pred)
+        iou = intersect / (union)
         Giou = iou - ((c_area - union) / c_area)
 
         return Giou
