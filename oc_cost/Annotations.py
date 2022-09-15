@@ -23,11 +23,7 @@ class BBox:
 
 class predBBox(BBox):
     def __init__(self, label, lefttop, width, height, precision):
-        self.label = label
-        self.x = lefttop[0]
-        self.y = lefttop[1]
-        self.width = width
-        self.height = height
+        super().__init__(label, lefttop, width, height)
         self.precision = precision
 
 
