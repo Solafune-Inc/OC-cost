@@ -68,18 +68,18 @@ class OC_Cost:
         else:
             self.__min_y1 = truth.y
             self.__max_y1 = pred.y
-        if truth.get_rightbottom_x() > pred.get_rightbottom_x():
-            self.__min_x2 = pred.get_rightbottom_x()
-            self.__max_x2 = truth.get_rightbottom_x()
+        if truth.x2 > pred.x2:
+            self.__min_x2 = pred.x2
+            self.__max_x2 = truth.x2
         else:
-            self.__min_x2 = truth.get_rightbottom_x()
-            self.__max_x2 = pred.get_rightbottom_x()
-        if truth.get_rightbottom_y() > pred.get_rightbottom_y():
-            self.__min_y2 = pred.get_rightbottom_y()
-            self.__max_y2 = truth.get_rightbottom_y()
+            self.__min_x2 = truth.x2
+            self.__max_x2 = pred.x2
+        if truth.y2 > pred.y2:
+            self.__min_y2 = pred.y2
+            self.__max_y2 = truth.y2
         else:
-            self.__min_y2 = truth.get_rightbottom_y()
-            self.__max_y2 = pred.get_rightbottom_y()
+            self.__min_y2 = truth.y2
+            self.__max_y2 = pred.y2
 
         if self.mode == "giou":
             cost = (1 - self.getGIOU(truth, pred)) / 2

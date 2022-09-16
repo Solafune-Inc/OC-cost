@@ -7,18 +7,8 @@ class BBox:
         self.y = lefttop[1]
         self.width = width
         self.height = height
-
-    def get_lefttop(self):
-        return (self.x, self.y)
-
-    def get_rightbottom(self):
-        return (self.x + self.width, self.y + self.height)
-
-    def get_rightbottom_x(self):
-        return (self.x + self.width)
-
-    def get_rightbottom_y(self):
-        return (self.y + self.height)
+        self.x2 = self.x + self.width
+        self.y2 = self.y + self.height
 
 
 class predBBox(BBox):
