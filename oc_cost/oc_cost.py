@@ -13,14 +13,11 @@ class OC_Cost:
             self.mode = "iou"
 
     def getIntersectUnion(self, truth: BBox, pred: predBBox):
-        a_area = (truth.width + 1) * (truth.height + 1)
-        b_area = (pred.width + 1) * (pred.height + 1)
-
         w = max(0, self.__min_x2 - self.__max_x1 + 1)
         h = max(0, self.__min_y2 - self.__max_y1 + 1)
         intersect = w * h
 
-        union = a_area + b_area - intersect
+        union = truth.area + pred.area - intersect
 
         return intersect, union
 

@@ -9,6 +9,7 @@ class BBox:
         self.height = height
         self.x2 = self.x + self.width
         self.y2 = self.y + self.height
+        self.area = (width + 1) * (height + 1)
 
 
 class predBBox(BBox):
