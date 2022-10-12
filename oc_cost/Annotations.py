@@ -7,27 +7,14 @@ class BBox:
         self.y = lefttop[1]
         self.width = width
         self.height = height
-
-    def get_lefttop(self):
-        return (self.x, self.y)
-
-    def get_rightbottom(self):
-        return (self.x + self.width, self.y + self.height)
-
-    def get_rightbottom_x(self):
-        return (self.x + self.width)
-
-    def get_rightbottom_y(self):
-        return (self.y + self.height)
+        self.x2 = self.x + self.width
+        self.y2 = self.y + self.height
+        self.area = (width + 1) * (height + 1)
 
 
 class predBBox(BBox):
     def __init__(self, label, lefttop, width, height, precision):
-        self.label = label
-        self.x = lefttop[0]
-        self.y = lefttop[1]
-        self.width = width
-        self.height = height
+        super().__init__(label, lefttop, width, height)
         self.precision = precision
 
 

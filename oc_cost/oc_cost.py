@@ -13,20 +13,11 @@ class OC_Cost:
             self.mode = "iou"
 
     def getIntersectUnion(self, truth: BBox, pred: predBBox):
-        a_area = (truth.get_rightbottom_x() - truth.x + 1) * \
-            (truth.get_rightbottom_y() - truth.y + 1)
-        b_area = (pred.get_rightbottom_x() - pred.x + 1) * \
-            (pred.get_rightbottom_y() - pred.y + 1)
-
-        abx_mn = max(truth.x, pred.x)
-        aby_mn = max(truth.y, pred.y)
-        abx_mx = min(truth.get_rightbottom_x(), pred.get_rightbottom_x())
-        aby_mx = min(truth.get_rightbottom_y(), pred.get_rightbottom_y())
-        w = max(0, abx_mx - abx_mn + 1)
-        h = max(0, aby_mx - aby_mn + 1)
+        w = max(0, self.__min_x2 - self.__max_x1 + 1)
+        h = max(0, self.__min_y2 - self.__max_y1 + 1)
         intersect = w * h
 
-        union = a_area + b_area - intersect
+        union = truth.area + pred.area - intersect
 
         return intersect, union
 
@@ -38,17 +29,12 @@ class OC_Cost:
         return iou
 
     def getGIOU(self, truth: BBox, pred: predBBox):
-
-        abx_mn = min(truth.x, pred.x)
-        aby_mn = min(truth.y, pred.y)
-        abx_mx = max(truth.get_rightbottom_x(), pred.get_rightbottom_x())
-        aby_mx = max(truth.get_rightbottom_y(), pred.get_rightbottom_y())
-
-        c_area = (abx_mx - abx_mn + 1) * (aby_mx - aby_mn + 1)
+        c_area = ((self.__max_x2 - self.__min_x1 + 1) *
+                  (self.__max_y2 - self.__min_y1 + 1))
 
         intersect, union = self.getIntersectUnion(truth, pred)
 
-        iou = self.getIOU(truth, pred)
+        iou = intersect / (union)
         Giou = iou - ((c_area - union) / c_area)
 
         return Giou
@@ -65,6 +51,33 @@ class OC_Cost:
             float: C_loc
         """
         cost: float = 0
+
+        # pre-calculate min max
+        if truth.x > pred.x:
+            self.__min_x1 = pred.x
+            self.__max_x1 = truth.x
+        else:
+            self.__min_x1 = truth.x
+            self.__max_x1 = pred.x
+        if truth.y > pred.y:
+            self.__min_y1 = pred.y
+            self.__max_y1 = truth.y
+        else:
+            self.__min_y1 = truth.y
+            self.__max_y1 = pred.y
+        if truth.x2 > pred.x2:
+            self.__min_x2 = pred.x2
+            self.__max_x2 = truth.x2
+        else:
+            self.__min_x2 = truth.x2
+            self.__max_x2 = pred.x2
+        if truth.y2 > pred.y2:
+            self.__min_y2 = pred.y2
+            self.__max_y2 = truth.y2
+        else:
+            self.__min_y2 = truth.y2
+            self.__max_y2 = pred.y2
+
         if self.mode == "giou":
             cost = (1 - self.getGIOU(truth, pred)) / 2
         if self.mode == "iou":
